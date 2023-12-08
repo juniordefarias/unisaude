@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Container, LoginContainer } from './styles';
 
@@ -9,11 +9,31 @@ import FormGroup from '../../components/FormGroup';
 
 import Button from '../../components/Button.js';
 
+import { Context } from '../../Context/AuthContext';
+
 export default function Login() {
+  const { authenticated, handleLogin } = useContext(Context);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authenticated) {
+      navigate('/admin');
+    }
+  }, [])
+
   const [formState, setFormState] = useState({
     username: '',
     password: '',
   });
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormState((prevFormulario) => ({
+      ...prevFormulario,
+      [name]: value,
+    }));
+  };
 
   const isFormValid = formState.username !== '' && formState.password !== '' ? true : false;
 
@@ -30,9 +50,11 @@ export default function Login() {
             >
               <input 
                 type="text" 
-                id="userName" 
-                name="userName" 
+                /* id="userName"  */
+                name="username" 
                 placeholder='Digite seu nome de usuário aqui'
+                value={formState.username}
+                onChange={handleInputChange}
               />
             </FormGroup>
 
@@ -42,15 +64,22 @@ export default function Login() {
             >
               <input 
                 type="password" 
-                id="pass" 
+                /* id="pass"  */
                 name="password" 
                 placeholder='Digite sua senha aqui'
+                value={formState.password}
+                onChange={handleInputChange}
               />
             </FormGroup>
 
             <div className='buttons'>
               <button className='button__register'><Link to='/register'>Criar conta</Link></button>
-              <Button disabled={isFormValid}>Fazer login</Button>
+              <Button 
+                onClick={() => handleLogin(formState)}
+                disabled={!isFormValid}
+              >
+                Fazer login
+              </Button>
             </div>
           </div>
         </LoginContainer>

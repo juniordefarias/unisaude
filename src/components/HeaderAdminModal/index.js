@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import ReactDOM from 'react-dom';
 
 import { Overlay, Container } from './styles';
 
+import { Context } from '../../Context/AuthContext';
+
 export default function HeaderAdminModal({ isOpened, onToggleModal, sectionSelected, onChangeSection }) {
+  const { handleLogout } = useContext(Context);
+
   if (!isOpened) {
     return null;
   }
@@ -63,7 +67,10 @@ export default function HeaderAdminModal({ isOpened, onToggleModal, sectionSelec
             </li>
           </ul>
 
-          <button className='button-close'>
+          <button 
+            onClick={handleLogout}
+            className='button-close'
+          >
             <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M0.9 18.5C0.402948 18.5 0 18.0971 0 17.6V1.4C0 0.902948 0.402948 0.5 0.9 0.5H13.5C13.9971 0.5 14.4 0.902948 14.4 1.4V4.1H12.6V2.3H1.8V16.7H12.6V14.9H14.4V17.6C14.4 18.0971 13.9971 18.5 13.5 18.5H0.9ZM12.6 13.1V10.4H6.3V8.6H12.6V5.9L17.1 9.5L12.6 13.1Z" fill="#FF0000"/>
             </svg>

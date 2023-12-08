@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Section from '../../components/Section.js';
 
 import { Container, ScheduleSection, FilterContainer, DoctorsContainer, DoctorCard } from './styles.js';
@@ -12,8 +14,26 @@ import iconLocation from '../../assets/images/icon-location.svg'
 
 import {doctors} from '../../mocks/doctors.js';
 
+import DataService from '../../services/DataService';
+
 export default function Schedule() {
-  console.log({doctors})
+  console.log({doctors});
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleCreateAppointment({
+    id_medico, id_paciente, data, hora
+  }) {
+    /* setIsLoading(true);
+
+    const consultaResponse = await DataService.createConsulta({
+      id_medico, id_paciente, data, hora
+    });
+
+    console.log({ consultaResponse });
+
+    setIsLoading(false); */
+  }
 
   return (
     <Container>
@@ -174,102 +194,6 @@ export default function Schedule() {
                 </DoctorCard>
               ))
             }
-
-            {/* <DoctorCard>
-              <div className='card__description'>
-                <div className='card__profile'>
-                  <div style={{
-                    width: '68px',
-                    height: '68px',
-                    borderRadius: '100%',
-                    border: '1px solid #E6E6E6',
-                  }}></div>
-                  <div className='profile__description'>
-                    <h4>Dr. Fulano Beltrano</h4>
-                    <span>Endocrinologista</span>
-                    <div>
-                      <img src={star} />
-                      <img src={star} />
-                      <img src={star} />
-                      <img src={star} />
-                      <img src={star} /> 
-                      <span>(12)</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className='card__more-info'>
-                  <ul>
-                    <li>
-                      <img src={iconMoney} />
-                      <span>R$ 250,00 a consulta</span>
-                    </li>
-                    <li>
-                      <img src={iconInsurance} />
-                      <span>Aceita convênios</span>
-                     </li>
-                    <li>
-                      <img src={iconLocation} />
-                      <span>Consolação, São Paulo</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className='card__schedule'>
-                <img src={arrowLeft} />
-                <div className='schedule__item'>
-                  <p>Hoje</p>
-                  <span>29 Nov</span>
-                  <div className='hours'>
-                    <button>
-                      15:30
-                    </button>
-                    <button>
-                      16:00
-                    </button>
-                    <button>
-                      16:30
-                    </button>
-                  </div>
-                </div>
-
-                <div className='schedule__item'>
-                  <p>Qui,</p>
-                  <span>30 Nov</span>
-                  <div className='hours'>
-                    <button>
-                      15:30
-                    </button>
-                    <button>
-                      16:00
-                    </button>
-                    <button>
-                      16:30
-                    </button>
-                  </div>
-                </div>
-
-                <div className='schedule__item'>
-                  <p>Sex,</p>
-                  <span>01 Dez</span>
-                  <div className='hours'>
-                    <button>
-                      15:30
-                    </button>
-                    <button>
-                      16:00
-                    </button>
-                    <button>
-                      16:30
-                    </button>
-                  </div>
-                </div>
-
-                <img src={arrowRight} />
-              </div>
-            </DoctorCard> */}
-
           </DoctorsContainer>
         </ScheduleSection>
       </Section>

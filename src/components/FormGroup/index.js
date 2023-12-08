@@ -63,11 +63,6 @@ export default function FormGroup({icon, label, children}) {
       </div>
       <div className='filter__input'>
         <label>{label}</label>
-        {/* <input 
-          type="text" 
-          id="pass" 
-          name="password" 
-        /> */}
         {children}
       </div>
     </Container>

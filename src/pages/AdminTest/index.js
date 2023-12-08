@@ -71,12 +71,7 @@ export default function Admin() {
       try {
         setIsLoading(true);
         setHasError(false);
-
-        const consultasList = (
-          type === 'medico'
-            ? await DataService.listConsultasMedico()
-            : await DataService.listConsultasPaciente()
-        )
+        const consultasList = await DataService.listConsultas();
 
         console.log({consultasList});
         setConsultas(consultasList);
@@ -89,8 +84,6 @@ export default function Admin() {
 
     loadAppointments();
   }, [])
-
-  console.log({consultas, userType})
 
   function handleToggleModal() {
     setIsModalOpened((prevState) => (
@@ -196,7 +189,7 @@ export default function Admin() {
                         ? (
                           <>
                             {
-                              consultas?.map((appointment) => (
+                              appointments?.map((appointment) => (
                                 <AppointmentCard
                                   /* key={AppointmentCard.id}   */
                                   key={Math.random()}
@@ -212,8 +205,8 @@ export default function Admin() {
 
                                     <div>
                                       {/* <h4>Fulano Beltrano</h4> */}
-                                      <h4>{appointment.medico_firstName} {appointment.medico_lastName}</h4>
-                                      <p>{appointment.medico_especialidade}</p>
+                                      <h4>{appointment.nome} {appointment.sobrenome}</h4>
+                                      <p>{appointment.especialidade}</p>
                                     </div>
                                   </div>
 
@@ -232,7 +225,7 @@ export default function Admin() {
                                   </svg>
 
                                       {/* <span>15:00 - 15:30</span> */}
-                                      <span>{appointment.horario_inicio} - {appointment.horario_termino}</span>
+                                      <span>{appointment.hora_inicio} - {appointment.hora_termino}</span>
                                     </p>
                                   </div>
 
@@ -241,15 +234,14 @@ export default function Admin() {
                                     <p>{appointment.logradouro} - {appointment.bairro}, {appointment.cidade}</p>
                                     <p>
                                       {/* <span>(81) 3435-7829</span> */}
-                                      <span>{appointment.paciente_telefone}</span>
+                                      <span>{appointment.telefone}</span>
                                       {/* <span>R$ 120,00</span> */}
                                       <span>
-                                        {/* {
+                                        {
                                           appointment.aceita_convenio === '1' 
                                             ? 'Convênio'
-                                            : Number(appointment.preco_consulta)?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})
-                                        } */}
-                                        {Number(appointment.preco_consulta)?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}
+                                            : Number(appointment.preco)?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})
+                                        }
                                       </span>
                                     </p>
                                   </div>
@@ -260,7 +252,7 @@ export default function Admin() {
                         ) : (
                           <>
                             {
-                              consultas?.map((appointment) => (
+                              appointments?.map((appointment) => (
                                 <AppointmentCard  
                                   /* key={AppointmentCard.id} */
                                   key={Math.random()}
@@ -278,7 +270,7 @@ export default function Admin() {
 
                                     <div>
                                       {/* <h4>Fulano Beltrano</h4> */}
-                                      <h4>{appointment.paciente_firstName} {appointment.paciente_lastName}</h4>
+                                      <h4>{appointment.nome} {appointment.sobrenome}</h4>
                                       <p>Paciente</p>
                                     </div>
                                   </div>
@@ -298,26 +290,24 @@ export default function Admin() {
                                   </svg>
 
                                       {/* <span>15:00 - 15:30</span> */}
-                                      <span>{appointment.horario_inicio} - {appointment.horario_termino}</span>
+                                      <span>{appointment.hora_inicio} - {appointment.hora_termino}</span>
                                     </p>
                                   </div>
 
                                   <div className='card__more-info'>
                                     {/* <p>127.791.484-83</p> */}
                                     <div>
-                                      {/* <p>{appointment.cpf}</p> */}
-                                      <p>127.791.484-83</p>
+                                      <p>{appointment.cpf}</p>
                                       <p>
                                         {/* <span>(81) 3435-7829</span> */}
-                                        <span>{appointment.paciente_telefone}</span>
+                                        <span>{appointment.telefone}</span>
                                         {/* <span>R$ 120,00</span> */}
                                         <span>
-                                          {/* {
+                                          {
                                             appointment.possui_convenio === '1' 
                                               ? 'Convênio'
                                               : Number(appointment.preco)?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})
-                                          } */}
-                                          {Number(appointment.preco_consulta)?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL'})}
+                                          }
                                         </span>
                                       </p>
                                     </div>

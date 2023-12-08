@@ -10,31 +10,72 @@ import Button from '../../components/Button';
 export default function Register() {
   const [userType, setUserType] = useState('paciente');
 
-  const [formState, setFormState] = useState({
-    userName: '',
+  const [userFormState, setUserFormState] = useState({
+    username: '',
     password: '',
-    repassword: '',
+    rePassword: '',
+  });
+
+  const handleUserInputChange = (event) => {
+    const { name, value } = event.target;
+    setUserFormState((prevFormulario) => ({
+      ...prevFormulario,
+      [name]: value,
+    }));
+  };
+
+  const isUserFormValid = Object.values(userFormState).every((value) => value !== '');
+
+  const [patientFormState, setPatientFormState] = useState({
     email: '',
     firstName: '',
     lastName: '',
     cpf: '',
     rg: '',
-    /* repassword: '',
-    repassword: '',
-    repassword: '', */
+    phone: '',
+    hasInsurance: '',
   });
 
-  const handleInputChange = (event) => {
+  const handlePatientInputChange = (event) => {
     const { name, value } = event.target;
-    setFormState((prevState) => ({
-      ...prevState,
+    setPatientFormState((prevFormulario) => ({
+      ...prevFormulario,
       [name]: value,
     }));
   };
 
-  const isFormValid = formState.userName !== '' && formState.password !== '' && formState.repassword !== '' && formState.email !== '' /* && formState.firstName !== '' */ && formState.lastName !== '' && formState.cpf !== '' && formState.rg !== '' ? true : false;
+  const isPatientFormValid = Object.values(patientFormState).every((value) => value !== '');
 
-  console.log({formState, isFormValid})
+  const [doctorFormState, setDoctorFormState] = useState({
+    email: '',
+    firstName: '',
+    lastName: '',
+    crm: '',
+    specialty: '',
+    phone: '',
+    acceptInsurance: '',
+    district: '',
+    city: '',
+    address: '',
+  });
+
+  const handleDoctorInputChange = (event) => {
+    const { name, value } = event.target;
+    setDoctorFormState((prevFormulario) => ({
+      ...prevFormulario,
+      [name]: value,
+    }));
+  };
+
+  const isDoctorFormValid = Object.values(doctorFormState).every((value) => value !== '');
+
+  const isFormValid = (
+    userType === 'medico'
+      ? isUserFormValid && isDoctorFormValid
+      : isUserFormValid && isPatientFormValid
+  );
+
+  console.log({ doctorFormState });
 
   return (
     <Container>
@@ -49,11 +90,11 @@ export default function Register() {
             >
               <input 
                 type="text" 
-                /* id="userName" 
-                name="userName"  */
+                /* id="username"  */
+                name="username" 
                 placeholder='Digite seu nome de usuário'
-                value={formState.userName}
-                onChange={handleInputChange}
+                value={userFormState.username}
+                onChange={handleUserInputChange}
               />
             </FormGroup>
           
@@ -64,11 +105,11 @@ export default function Register() {
               >
                 <input 
                   type="password" 
-                  /* id="pass" 
-                  name="password" */
-                  placeholder='Digite sua senha' 
-                  value={formState.password}
-                  onChange={handleInputChange}
+                  /* id="pass"  */
+                  name="password"
+                  placeholder='Digite sua senha'
+                  value={userFormState.password}
+                  onChange={handleUserInputChange}
                 />
               </FormGroup>
               <FormGroup  
@@ -77,11 +118,11 @@ export default function Register() {
               >
                 <input 
                   type="password" 
-                  /* id="repass" 
-                  name="repassword"  */
+                  /* id="rePass"  */
+                  name="rePassword" 
                   placeholder='Repita sua senha'
-                  value={formState.repassword}
-                  onChange={handleInputChange}
+                  value={userFormState.rePassword}
+                  onChange={handleUserInputChange}
                 />
               </FormGroup>
             </div>
@@ -107,11 +148,11 @@ export default function Register() {
                     >
                       <input 
                         type="email" 
-                        /* id="email" 
-                        name="email"  */
+                        /* id="email"  */
+                        name="email" 
                         placeholder='Digite seu melhor email'
-                        value={formState.email}
-                        onChange={handleInputChange}
+                        value={patientFormState.email}
+                        onChange={handlePatientInputChange}
                       />
                     </FormGroup>
 
@@ -122,11 +163,11 @@ export default function Register() {
                       >
                         <input 
                           type="text" 
-                          /* id="firstName" 
-                          name="firstName"  */
+                          /* id="firstName"  */
+                          name="firstName" 
                           placeholder='Digite seu nome'
-                          value={formState.firstName}
-                          onChange={handleInputChange}
+                          value={patientFormState.firstName}
+                          onChange={handlePatientInputChange}
                         />
                       </FormGroup>
                       <FormGroup  
@@ -135,11 +176,11 @@ export default function Register() {
                       >
                         <input 
                           type="text" 
-                          /* id="lastName" 
-                          name="lastName"  */
+                          /* id="lastName"  */
+                          name="lastName" 
                           placeholder='Digite seu sobrenome'
-                          value={formState.lastName}
-                          onChange={handleInputChange}
+                          value={patientFormState.lastName}
+                          onChange={handlePatientInputChange}
                         />
                       </FormGroup>
                     </div>
@@ -151,11 +192,11 @@ export default function Register() {
                       >
                         <input 
                           type="text" 
-                          /* id="cpf" 
-                          name="cpf"  */
+                          /* id="cpf"  */
+                          name="cpf" 
                           placeholder='Digite seu CPF'
-                          value={formState.cpf}
-                          onChange={handleInputChange}
+                          value={patientFormState.cpf}
+                          onChange={handlePatientInputChange}
                         />
                       </FormGroup>
                       <FormGroup  
@@ -164,11 +205,11 @@ export default function Register() {
                       >
                         <input 
                           type="text" 
-                          /* id="rg" 
-                          name="rg"  */
+                          /* id="rg"  */
+                          name="rg" 
                           placeholder='Digite seu RG'
-                          value={formState.rg}
-                          onChange={handleInputChange}
+                          value={patientFormState.rg}
+                          onChange={handlePatientInputChange}
                         />
                       </FormGroup>
                     </div>
@@ -180,58 +221,27 @@ export default function Register() {
                       >
                         <input 
                           type="tel" 
-                          /* id="phone" 
-                          name="phone"  */
+                          /* id="phone"  */
+                          name="phone" 
                           placeholder='Digite seu número de telefone'
+                          value={patientFormState.phone}
+                          onChange={handlePatientInputChange}
                         />
                       </FormGroup>
                       <FormGroup  
                         icon='id' 
                         label='Possui convênio'
                       >
-                        <select>
-                          <option>Não</option>
-                          <option>Sim</option>
+                        <select
+                          name="hasInsurance"
+                          value={patientFormState.hasInsurance}
+                          onChange={handlePatientInputChange}
+                        >
+                          <option value="0">Não</option>
+                          <option value="1">Sim</option>
                         </select>
                       </FormGroup>
                     </div>
-
-                    <div className='filters__group'>
-                      <FormGroup  
-                        icon='map' 
-                        label='Bairro'
-                      >
-                        <input 
-                          type="text" 
-                          /* id="bairro" 
-                          name="bairro"  */
-                          placeholder='Digite seu bairro'
-                        />
-                      </FormGroup>
-                      <FormGroup  
-                        icon='map' 
-                        label='Cidade'
-                      >
-                        <input 
-                          type="text" 
-                          /* id="cidade" 
-                          name="cidade"  */
-                          placeholder='Digite seu cidade'
-                        />
-                      </FormGroup>
-                    </div>
-
-                    <FormGroup  
-                      icon='map' 
-                      label='Logradouro'
-                    >
-                      <input 
-                        type="text" 
-                        /* id="logradouro" 
-                        name="logradouro"  */
-                        placeholder='Digite nome da rua e número do endereço'
-                      />
-                    </FormGroup>
                   </>
                 ) : (
                   <>
@@ -241,9 +251,11 @@ export default function Register() {
                     >
                       <input 
                         type="email" 
-                        /* id="email" 
-                        name="email" */ 
+                        /* id="email" */ 
+                        name="email" 
                         placeholder='Digite seu melhor email'
+                        value={doctorFormState.email}
+                        onChange={handleDoctorInputChange}
                       />
                     </FormGroup>
 
@@ -254,9 +266,11 @@ export default function Register() {
                       >
                         <input 
                           type="text" 
-                          /* id="name" 
-                          name="name"  */
+                          /* id="firstName"  */
+                          name="firstName" 
                           placeholder='Digite seu nome'
+                          value={doctorFormState.firstName}
+                          onChange={handleDoctorInputChange}
                         />
                       </FormGroup>
                       <FormGroup  
@@ -265,9 +279,11 @@ export default function Register() {
                       >
                         <input 
                           type="text" 
-                          /* id="lastName" 
-                          name="lastName" */ 
+                          /* id="lastName" */ 
+                          name="lastName" 
                           placeholder='Digite seu sobrenome'
+                          value={doctorFormState.lastName}
+                          onChange={handleDoctorInputChange}
                         />
                       </FormGroup>
                     </div>
@@ -279,20 +295,29 @@ export default function Register() {
                       >
                         <input 
                           type="text" 
-                          /* id="crm" 
-                          name="crm" */ 
+                          /* id="crm" */ 
+                          name="crm" 
                           placeholder='Digite seu CRM'
+                          value={doctorFormState.crm}
+                          onChange={handleDoctorInputChange}
                         />
                       </FormGroup>
                       <FormGroup  
                         icon='medicine' 
                         label='Especialidade'
                       >
-                        <select>
-                          <option>Cardiologista</option>
-                          <option>Endocrinologista</option>
-                          <option>Clínico geral</option>
-                          <option>Psiquiatra</option>
+                        <select
+                          name='specialty'
+                          value={doctorFormState.specialty}
+                          onChange={handleDoctorInputChange}
+                        >
+                          <option 
+                            defaultValue hidden value={''}
+                          >Selecione a opção</option>
+                          <option value="1">Cardiologista</option>
+                          <option value="2">Endocrinologista</option>
+                          <option value="3">Clínico geral</option>
+                          <option value="4">Psiquiatra</option>
                         </select>
                       </FormGroup>
                     </div>
@@ -304,18 +329,27 @@ export default function Register() {
                       >
                         <input 
                           type="tel" 
-                          /* id="phone" 
-                          name="phone"  */
+                          /* id="phone"  */
+                          name="phone" 
                           placeholder='Digite o número para contato'
+                          value={doctorFormState.phone}
+                          onChange={handleDoctorInputChange}
                         />
                       </FormGroup>
                       <FormGroup  
                         icon='id' 
                         label='Aceita convênio'
                       >
-                        <select>
-                          <option>Não</option>
-                          <option>Sim</option>
+                        <select
+                          name="acceptInsurance"
+                          value={doctorFormState.acceptInsurance}
+                          onChange={handleDoctorInputChange}
+                        >
+                          <option 
+                            defaultValue hidden value={''}
+                          >Selecione a opção</option>
+                          <option value="0">Não</option>
+                          <option value="1">Sim</option>
                         </select>
                       </FormGroup>
                     </div>
@@ -327,9 +361,11 @@ export default function Register() {
                       >
                         <input 
                           type="text" 
-                          /* id="bairro" 
-                          name="bairro"  */
+                          /* id="district"  */
+                          name="district" 
                           placeholder='Digite o bairro onde atende'
+                          value={doctorFormState.district}
+                          onChange={handleDoctorInputChange}
                         />
                       </FormGroup>
                       <FormGroup  
@@ -338,9 +374,11 @@ export default function Register() {
                       >
                         <input 
                           type="text" 
-                          /* id="cidade" 
-                          name="cidade" */ 
+                          /* id="city"  */
+                          name="city" 
                           placeholder='Digite a cidade onde atende'
+                          value={doctorFormState.city}
+                          onChange={handleDoctorInputChange}
                         />
                       </FormGroup>
                     </div>
@@ -351,9 +389,11 @@ export default function Register() {
                     >
                       <input 
                         type="text" 
-                        /* id="logradouro" 
-                        name="logradouro" */ 
+                        /* id="address"  */
+                        name="address" 
                         placeholder='Digite nome da rua e número onde atende'
+                        value={doctorFormState.address}
+                        onChange={handleDoctorInputChange}
                       />
                     </FormGroup>
                   </>

@@ -71,7 +71,7 @@ export const Container = styled.footer`
     text-align: center;
   }
 
-  ${respondTo('medium')`
+  ${respondTo('small')`
     width: calc(100% - 104px);
   `}
 `;

@@ -99,7 +99,7 @@ export const Container = styled.header`
     }
   }
 
-  ${respondTo('medium')`
+  ${respondTo('small')`
     width: calc(100% - 104px);
   `}
 `;
